@@ -37,6 +37,7 @@ public class arvore {
 		if(novo.getConteudo().getNome().compareTo(raiz.getConteudo().getNome()) < 0) {
 			if(raiz.getEsq() == null) {
 				raiz.setEsq(novo);
+				this.quantNos++;
 			}else {
 				inserir(novo, raiz.getEsq());
 			}
@@ -46,6 +47,7 @@ public class arvore {
 				raiz.setDir(novo);
 			}else {
 				inserir(novo, raiz.getDir());
+				this.quantNos++;
 			}
 		}
 	}
@@ -114,6 +116,13 @@ public class arvore {
 			imprime_meninas(raiz.getDir());
 		}
 	}
+	
+	public void calcula_saldo() {
+		
+	}
+	
+	
+	
 }
 
 

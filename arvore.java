@@ -32,6 +32,7 @@ public class arvore {
 	public void inserir(no novo, no raiz) {
 		if(eVazia(raiz)) {
 			this.raiz = novo;
+			return;
 		}
 		if(novo.getConteudo().getNome().compareTo(raiz.getConteudo().getNome()) < 0) {
 			if(raiz.getEsq() == null) {
@@ -84,11 +85,35 @@ public class arvore {
 		}
 		return false;
 	}
-}
-/*
-	public no remover (String nome, no arv){
-		if(nome.compareTo(arv.getConteudo().getNome()) < 0){
-			arv.setEsq(remover (nome, arv.getEsq()));
-		}else{if()
+	
+	public void consulta(String nome, no raiz) {
+		if(eVazia(raiz)) {
+			System.out.println("Não encontrado");
+			return;
+		}
+		if(nome.compareTo(raiz.getConteudo().getNome()) == 0) {
+			System.out.println(raiz.getConteudo().getNome() + " " + raiz.getConteudo().getCPF() + " " + raiz.getConteudo().getIdade() + " " + raiz.getConteudo().getSaldo() + " " + raiz.getConteudo().getSexo());
+			return;
+		}
+		
+		if(nome.compareTo(raiz.getConteudo().getNome()) < 0) {
+			consulta(nome, raiz.getEsq());
+		}
+		
+		if(nome.compareTo(raiz.getConteudo().getNome()) > 0) {
+			consulta(nome, raiz.getDir());
+		}
 	}
-}*/
+	
+	public void imprime_meninas(no raiz) {
+		if(!eVazia(raiz)) {
+			imprime_meninas(raiz.getEsq());
+			if(raiz.getConteudo().getSexo() == 'f') {
+				System.out.println(raiz.getConteudo().getNome());
+			}
+			imprime_meninas(raiz.getDir());
+		}
+	}
+}
+
+

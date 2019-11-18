@@ -117,11 +117,45 @@ public class arvore {
 		}
 	}
 	
-	public void calcula_saldo() {
-		
+	public void calcula_idade_media(no raiz, float media) {
+		if(!eVazia(raiz)) {
+			media = media + raiz.getConteudo().getIdade();
+			calcula_idade_media(raiz.getEsq(), media);
+			calcula_idade_media(raiz.getDir(), media);
+		}
 	}
 	
+	public float calcula_idade_media(no raiz) {
+		float media = 0;
+		calcula_idade_media(raiz, media);
+		media /= this.quantNos;
+		return media;
+	}
 	
+	public void calcula_saldo_medio(no raiz, float media) {
+		if(!eVazia(raiz)) {
+			media = media + raiz.getConteudo().getSaldo();
+			calcula_saldo_medio(raiz.getEsq(), media);
+			calcula_saldo_medio(raiz.getDir(), media);
+		}
+	}
+	
+	public float calcula_saldo_medio(no raiz) {
+		float media = 0;
+		calcula_saldo_medio(raiz, media);
+		media /= this.quantNos;
+		return media;
+	}
+	
+	public void acima_media(no raiz, float media) {
+		if(eVazia(raiz)) {
+			if(raiz.getConteudo().getSaldo() > media) {
+				System.out.println(raiz.getConteudo().getNome());
+			}
+			acima_media(raiz.getEsq(), media);
+			acima_media(raiz.getDir(), media);
+		}
+	}
 	
 }
 

@@ -1,6 +1,6 @@
 
 public class arvore {
-	private no raiz;
+	public no raiz;
 	private int quantNos;
 
 	public arvore() {
@@ -22,7 +22,7 @@ public class arvore {
 	}
 	
 	public void verificacao_anterior_a_insercao(no novo, no raiz) {
-		if(pesquisa(novo.getConteudo().getNome(), "", 'n', raiz) && pesquisa("", novo.getConteudo().getCPF(), 'c', raiz)) {
+		if(pesquisa(novo.getConteudo().getNome(), "", 'n', raiz) || pesquisa("", novo.getConteudo().getCPF(), 'c', raiz)) {
 			System.out.println("Usuario com nome ou CPF já cadastrado");
 		}else {
 			inserir(novo, raiz);
@@ -73,15 +73,15 @@ public class arvore {
 			if(eVazia(raiz)) {
 				return false;
 			}
-			if(CPF.compareTo(raiz.getConteudo().getNome()) == 0) {
+			if(CPF.compareTo(raiz.getConteudo().getCPF()) == 0) {
 				return true;
 			}
 			
-			if(CPF.compareTo(raiz.getConteudo().getNome()) < 0) {
+			if(CPF.compareTo(raiz.getConteudo().getCPF()) < 0) {
 				return pesquisa(nome, CPF, seletor, raiz.getEsq());
 			}
 			
-			if(CPF.compareTo(raiz.getConteudo().getNome()) > 0) {
+			if(CPF.compareTo(raiz.getConteudo().getCPF()) > 0) {
 				return pesquisa(nome, CPF, seletor, raiz.getDir());
 			}
 		}
@@ -125,11 +125,11 @@ public class arvore {
 		}
 	}
 	
-	public float calcula_idade_media(no raiz) {
+	public void calcula_idade_media(no raiz) {
 		float media = 0;
 		calcula_idade_media(raiz, media);
 		media /= this.quantNos;
-		return media;
+		System.out.println(media);
 	}
 	
 	public void calcula_saldo_medio(no raiz, float media) {
@@ -148,12 +148,20 @@ public class arvore {
 	}
 	
 	public void acima_media(no raiz, float media) {
-		if(eVazia(raiz)) {
+		if(!eVazia(raiz)) {
 			if(raiz.getConteudo().getSaldo() > media) {
 				System.out.println(raiz.getConteudo().getNome());
 			}
 			acima_media(raiz.getEsq(), media);
 			acima_media(raiz.getDir(), media);
+		}
+	}
+	
+	public void imprime(no raiz) {
+		if(!eVazia(raiz)) {
+			imprime(raiz.getEsq());
+			System.out.println(raiz.getConteudo().getNome());
+			imprime(raiz.getDir());
 		}
 	}
 	

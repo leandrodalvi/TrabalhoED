@@ -1,12 +1,12 @@
 
-public class cliente {
+public class Cliente {
 	private String nome;
 	private String CPF;
 	private int idade;
 	private char sexo;
 	private float saldo;
 	
-	public cliente(String nome, String CPF, int idade, char sexo, float saldo) {
+	public Cliente(String nome, String CPF, int idade, char sexo, float saldo) {
 		this.nome = nome;
 		this.CPF = CPF;
 		this.idade = idade;

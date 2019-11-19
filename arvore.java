@@ -1,14 +1,14 @@
 
-public class arvore {
-	public no raiz;
+public class Arvore {
+	public No raiz;
 	private int quantNos;
 
-	public arvore() {
+	public Arvore() {
 		this.raiz = null;
 		this.quantNos = 0;
 	}
 
-	public no getRaiz() {
+	public No getRaiz() {
 		return raiz;
 	}
 
@@ -17,11 +17,11 @@ public class arvore {
 	}
 	
 	
-	public boolean eVazia (no raiz){
-		return(raiz== null);
+	public boolean eVazia (No raiz){
+		return(raiz == null);
 	}
 	
-	public void verificacao_anterior_a_insercao(no novo, no raiz) {
+	public void verificacaoAnteriorInsercao(No novo, No raiz) {
 		if(pesquisa(novo.getConteudo().getNome(), "", 'n', raiz) || pesquisa("", novo.getConteudo().getCPF(), 'c', raiz)) {
 			System.out.println("Usuario com nome ou CPF já cadastrado");
 		}else {
@@ -29,7 +29,7 @@ public class arvore {
 		}
 	}
 
-	public void inserir(no novo, no raiz) {
+	public void inserir(No novo, No raiz) {
 		if(eVazia(raiz)) {
 			this.raiz = novo;
 			return;
@@ -52,7 +52,7 @@ public class arvore {
 		}
 	}
 	
-	public boolean pesquisa(String nome, String CPF, char seletor, no raiz) {
+	public boolean pesquisa(String nome, String CPF, char seletor, No raiz) {
 		if(seletor == 'n') {
 			if(eVazia(raiz)) {
 				return false;
@@ -88,7 +88,7 @@ public class arvore {
 		return false;
 	}
 	
-	public void consulta(String nome, no raiz) {
+	public void consulta(String nome, No raiz) {
 		if(eVazia(raiz)) {
 			System.out.println("Não encontrado");
 			return;
@@ -107,57 +107,57 @@ public class arvore {
 		}
 	}
 	
-	public void imprime_meninas(no raiz) {
+	public void imprimeMeninas(No raiz) {
 		if(!eVazia(raiz)) {
-			imprime_meninas(raiz.getEsq());
+			imprimeMeninas(raiz.getEsq());
 			if(raiz.getConteudo().getSexo() == 'f') {
 				System.out.println(raiz.getConteudo().getNome());
 			}
-			imprime_meninas(raiz.getDir());
+			imprimeMeninas(raiz.getDir());
 		}
 	}
 	
-	public void calcula_idade_media(no raiz, float media) {
+	public void calculaIdadeMedia(No raiz, float media) {
 		if(!eVazia(raiz)) {
 			media = media + raiz.getConteudo().getIdade();
-			calcula_idade_media(raiz.getEsq(), media);
-			calcula_idade_media(raiz.getDir(), media);
+			calculaIdadeMedia(raiz.getEsq(), media);
+			calculaIdadeMedia(raiz.getDir(), media);
 		}
 	}
 	
-	public void calcula_idade_media(no raiz) {
-		float media = 0;
-		calcula_idade_media(raiz, media);
+	public void calculaIdadeMedia(No raiz) {
+		float media = 1;
+		calculaIdadeMedia(raiz, media);
 		media /= this.quantNos;
 		System.out.println(media);
 	}
 	
-	public void calcula_saldo_medio(no raiz, float media) {
+	public void calculaSaldoMedio(No raiz, float media) {
 		if(!eVazia(raiz)) {
 			media = media + raiz.getConteudo().getSaldo();
-			calcula_saldo_medio(raiz.getEsq(), media);
-			calcula_saldo_medio(raiz.getDir(), media);
+			calculaSaldoMedio(raiz.getEsq(), media);
+			calculaSaldoMedio(raiz.getDir(), media);
 		}
 	}
 	
-	public float calcula_saldo_medio(no raiz) {
+	public float calculaSaldoMedio(No raiz) {
 		float media = 0;
-		calcula_saldo_medio(raiz, media);
+		calculaSaldoMedio(raiz, media);
 		media /= this.quantNos;
 		return media;
 	}
 	
-	public void acima_media(no raiz, float media) {
+	public void acimaMedia(No raiz, float media) {
 		if(!eVazia(raiz)) {
 			if(raiz.getConteudo().getSaldo() > media) {
 				System.out.println(raiz.getConteudo().getNome());
 			}
-			acima_media(raiz.getEsq(), media);
-			acima_media(raiz.getDir(), media);
+			acimaMedia(raiz.getEsq(), media);
+			acimaMedia(raiz.getDir(), media);
 		}
 	}
 	
-	public void imprime(no raiz) {
+	public void imprime(No raiz) {
 		if(!eVazia(raiz)) {
 			imprime(raiz.getEsq());
 			System.out.println(raiz.getConteudo().getNome());

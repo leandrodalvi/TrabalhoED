@@ -1,32 +1,32 @@
 
-public class no {
-	private no esq;
-	private no dir;
-	private cliente conteudo;
+public class No {
+	private No esq;
+	private No dir;
+	private Cliente conteudo;
 	
-	public no(cliente novo) {
+	public No(Cliente novo) {
 		this.conteudo = novo;
 		this.dir = this.esq = null;
 	}
 	
 	
 	
-	public no getEsq() {
+	public No getEsq() {
 		return esq;
 	}
-	public void setEsq(no esq) {
+	public void setEsq(No esq) {
 		this.esq = esq;
 	}
-	public no getDir() {
+	public No getDir() {
 		return dir;
 	}
-	public void setDir(no dir) {
+	public void setDir(No dir) {
 		this.dir = dir;
 	}
-	public cliente getConteudo() {
+	public Cliente getConteudo() {
 		return conteudo;
 	}
-	public void setConteudo(cliente conteudo) {
+	public void setConteudo(Cliente conteudo) {
 		this.conteudo = conteudo;
 	}
 }

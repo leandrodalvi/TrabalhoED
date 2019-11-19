@@ -7,14 +7,7 @@ public class No {
 	public No(Cliente novo) {
 		this.conteudo = novo;
 		this.dir = this.esq = null;
-	}
-	
-	public int soma() {
-        return conteudo.getIdade()
-                + (dir == null ? 0 : dir.soma())
-                + (esq == null ? 0 : esq.soma());
-    }
-	
+	}	
 	
 	public No getEsq() {
 		return esq;

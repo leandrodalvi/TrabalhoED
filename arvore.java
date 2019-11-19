@@ -117,13 +117,6 @@ public class Arvore {
 		}
 	}
 
-	public void calculaIdadeMedia(No raiz, float media) {
-		if(!eVazia(raiz)) {
-			media = media + raiz.getConteudo().getIdade();
-			calculaIdadeMedia(raiz.getEsq(), media);
-			calculaIdadeMedia(raiz.getDir(), media);
-		}
-	}
 	
 	public double calculaIdadeMedia(No raiz, double media, int cont ) {		
 		media = (media * cont +raiz.getConteudo().getIdade()) / ++cont;
@@ -182,9 +175,6 @@ public class Arvore {
 		}
 	}
 
-	public double soma() {
-		return (eVazia(raiz)) ? 0 : raiz.soma();
-	}
 
 }
 

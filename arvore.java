@@ -15,12 +15,12 @@ public class Arvore {
 	public int getQuantNos() {
 		return quantNos;
 	}
-	
-	
+
+
 	public boolean eVazia (No raiz){
 		return(raiz == null);
 	}
-	
+
 	public void verificacaoAnteriorInsercao(No novo, No raiz) {
 		if(pesquisa(novo.getConteudo().getNome(), "", 'n', raiz) || pesquisa("", novo.getConteudo().getCPF(), 'c', raiz)) {
 			System.out.println("Usuario com nome ou CPF já cadastrado");
@@ -51,7 +51,7 @@ public class Arvore {
 			}
 		}
 	}
-	
+
 	public boolean pesquisa(String nome, String CPF, char seletor, No raiz) {
 		if(seletor == 'n') {
 			if(eVazia(raiz)) {
@@ -60,11 +60,11 @@ public class Arvore {
 			if(nome.compareTo(raiz.getConteudo().getNome()) == 0) {
 				return true;
 			}
-			
+
 			if(nome.compareTo(raiz.getConteudo().getNome()) < 0) {
 				return pesquisa(nome, CPF, seletor, raiz.getEsq());
 			}
-			
+
 			if(nome.compareTo(raiz.getConteudo().getNome()) > 0) {
 				return pesquisa(nome, CPF, seletor, raiz.getDir());
 			}
@@ -76,18 +76,18 @@ public class Arvore {
 			if(CPF.compareTo(raiz.getConteudo().getCPF()) == 0) {
 				return true;
 			}
-			
+
 			if(CPF.compareTo(raiz.getConteudo().getCPF()) < 0) {
 				return pesquisa(nome, CPF, seletor, raiz.getEsq());
 			}
-			
+
 			if(CPF.compareTo(raiz.getConteudo().getCPF()) > 0) {
 				return pesquisa(nome, CPF, seletor, raiz.getDir());
 			}
 		}
 		return false;
 	}
-	
+
 	public void consulta(String nome, No raiz) {
 		if(eVazia(raiz)) {
 			System.out.println("Não encontrado");
@@ -97,16 +97,16 @@ public class Arvore {
 			System.out.println(raiz.getConteudo().getNome() + " " + raiz.getConteudo().getCPF() + " " + raiz.getConteudo().getIdade() + " " + raiz.getConteudo().getSaldo() + " " + raiz.getConteudo().getSexo());
 			return;
 		}
-		
+
 		if(nome.compareTo(raiz.getConteudo().getNome()) < 0) {
 			consulta(nome, raiz.getEsq());
 		}
-		
+
 		if(nome.compareTo(raiz.getConteudo().getNome()) > 0) {
 			consulta(nome, raiz.getDir());
 		}
 	}
-	
+
 	public void imprimeMeninas(No raiz) {
 		if(!eVazia(raiz)) {
 			imprimeMeninas(raiz.getEsq());
@@ -116,7 +116,7 @@ public class Arvore {
 			imprimeMeninas(raiz.getDir());
 		}
 	}
-	
+
 	public void calculaIdadeMedia(No raiz, float media) {
 		if(!eVazia(raiz)) {
 			media = media + raiz.getConteudo().getIdade();
@@ -125,28 +125,45 @@ public class Arvore {
 		}
 	}
 	
-	public void calculaIdadeMedia(No raiz) {
-		float media = 1;
-		calculaIdadeMedia(raiz, media);
-		media /= this.quantNos;
-		System.out.println(media);
+	public double calculaIdadeMedia(No raiz, double media, int cont ) {		
+		media = (media * cont +raiz.getConteudo().getIdade()) / ++cont;
+
+		media = (raiz.getEsq() != null)? calculaIdadeMedia(raiz.getEsq(), media, cont++) : media;
+		media = (raiz.getDir() != null)? calculaIdadeMedia(raiz.getDir(), media, cont++) : media;
+
+		return media;
 	}
-	
-	public void calculaSaldoMedio(No raiz, float media) {
-		if(!eVazia(raiz)) {
-			media = media + raiz.getConteudo().getSaldo();
-			calculaSaldoMedio(raiz.getEsq(), media);
-			calculaSaldoMedio(raiz.getDir(), media);
-		}
+
+	public double calculaIdadeMedia() {
+		double media = raiz.getConteudo().getIdade();
+		int cont = 1;
+
+		media = (raiz.getEsq() != null)? calculaIdadeMedia(raiz.getEsq(), media, cont++) : media;
+		media = (raiz.getDir() != null)? calculaIdadeMedia(raiz.getDir(), media, cont++) : media;
+
+		return media;
 	}
-	
-	public float calculaSaldoMedio(No raiz) {
-		float media = 0;
-		calculaSaldoMedio(raiz, media);
-		media /= this.quantNos;
+
+	public double calculaSaldoMedio(No raiz, double media, int cont ) {		
+		media = (media * cont +raiz.getConteudo().getSaldo()) / ++cont;
+
+		media = (raiz.getEsq() != null)? calculaSaldoMedio(raiz.getEsq(), media, cont++) : media;
+		media = (raiz.getDir() != null)? calculaSaldoMedio(raiz.getDir(), media, cont++) : media;
+
 		return media;
 	}
 	
+	public double calculaSaldoMedio() {		
+		double media = raiz.getConteudo().getSaldo();
+		int cont = 1;
+
+		media = (raiz.getEsq() != null)? calculaSaldoMedio(raiz.getEsq(), media, cont++) : media;
+		media = (raiz.getDir() != null)? calculaSaldoMedio(raiz.getDir(), media, cont++) : media;
+
+		return media;
+	}
+
+
 	public void acimaMedia(No raiz, float media) {
 		if(!eVazia(raiz)) {
 			if(raiz.getConteudo().getSaldo() > media) {
@@ -156,7 +173,7 @@ public class Arvore {
 			acimaMedia(raiz.getDir(), media);
 		}
 	}
-	
+
 	public void imprime(No raiz) {
 		if(!eVazia(raiz)) {
 			imprime(raiz.getEsq());
@@ -164,7 +181,11 @@ public class Arvore {
 			imprime(raiz.getDir());
 		}
 	}
-	
+
+	public double soma() {
+		return (eVazia(raiz)) ? 0 : raiz.soma();
+	}
+
 }
 
 

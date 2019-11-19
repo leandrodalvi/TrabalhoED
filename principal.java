@@ -1,12 +1,13 @@
 
-public class principal {
+public class Principal {
 
 	public static void main(String[] args) {
 		Arvore arv = new Arvore();
-		Cliente elder = new Cliente("Elder", "164.789.456-78", 22, 'm', 92);
-		Cliente ricardo = new Cliente("Ricardo", "789.789.789-87", 92, 'm', 43);
-		Cliente adriana = new Cliente("Adriana", "456.456.456-98", 17, 'f', 75);
-		Cliente guilherme = new Cliente("Guilherme", "164.789.456-79", 38, 'm', 14);
+		Cliente elder = new Cliente("Elder", "164.789.456-78", 10, 'm', 100);
+		Cliente ricardo = new Cliente("Ricardo", "789.789.789-87", 10, 'm', 100);
+		Cliente adriana = new Cliente("Adriana", "456.456.456-98", 20, 'f', 80);
+		Cliente guilherme = new Cliente("Guilherme", "164.789.456-79", 20, 'm', 80);
+		
 		No novo = new No(elder);
 		No novo1 = new No(ricardo);
 		No novo2 = new No(adriana);
@@ -16,7 +17,9 @@ public class principal {
 		arv.verificacaoAnteriorInsercao(novo1, arv.raiz);
 		arv.verificacaoAnteriorInsercao(novo2, arv.raiz);
 		arv.verificacaoAnteriorInsercao(novo3, arv.raiz);
-		arv.calculaIdadeMedia(arv.raiz);
+		
+		System.out.println("média saldo = "+arv.calculaSaldoMedio());
+		System.out.println("média idade = "+arv.calculaIdadeMedia());
 	}
 
 }

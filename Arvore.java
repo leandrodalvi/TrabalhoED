@@ -1,9 +1,10 @@
+import java.util.ArrayList;
 
-public class Arvore {
+public class arvore {
 	public No raiz;
 	private int quantNos;
 
-	public Arvore() {
+	public arvore() {
 		this.raiz = null;
 		this.quantNos = 0;
 	}
@@ -21,11 +22,12 @@ public class Arvore {
 		return(raiz == null);
 	}
 
-	public void verificacaoAnteriorInsercao(No novo, No raiz) {
+	public String verificacaoAnteriorInsercao(No novo, No raiz) {
 		if(pesquisa(novo.getConteudo().getNome(), "", 'n', raiz) || pesquisa("", novo.getConteudo().getCPF(), 'c', raiz)) {
-			System.out.println("Usuario com nome ou CPF já cadastrado");
+			return "Usuario com nome ou CPF já cadastrado";
 		}else {
 			inserir(novo, raiz);
+			return "Usuário inserido";
 		}
 	}
 
@@ -88,43 +90,63 @@ public class Arvore {
 		return false;
 	}
 
-	public void consulta(String nome, No raiz) {
-		if(eVazia(raiz)) {
-			System.out.println("Não encontrado");
-			return;
-		}
+
+	public Cliente consulta(String nome) {
+
 		if(nome.compareTo(raiz.getConteudo().getNome()) == 0) {
-			System.out.println(raiz.getConteudo().getNome() + " " + raiz.getConteudo().getCPF() + " " + raiz.getConteudo().getIdade() + " " + raiz.getConteudo().getSaldo() + " " + raiz.getConteudo().getSexo());
-			return;
+			return raiz.getConteudo();
 		}
 
 		if(nome.compareTo(raiz.getConteudo().getNome()) < 0) {
-			consulta(nome, raiz.getEsq());
+			return consulta(nome, raiz.getEsq());
 		}
 
 		if(nome.compareTo(raiz.getConteudo().getNome()) > 0) {
-			consulta(nome, raiz.getDir());
+			return consulta(nome, raiz.getDir());
+		}
+		return null;
+	}
+
+	public Cliente consulta(String nome, No raiz) {
+		if(eVazia(raiz)) {
+			return null;
+		}
+		if(nome.compareTo(raiz.getConteudo().getNome()) == 0) {
+			return raiz.getConteudo();
+		}
+
+		if(nome.compareTo(raiz.getConteudo().getNome()) < 0) {
+			return consulta(nome, raiz.getEsq());
+		}
+
+		if(nome.compareTo(raiz.getConteudo().getNome()) > 0) {
+			return consulta(nome, raiz.getDir());
+		}
+		return null;
+	}
+
+	public String imprimeMeninas() {
+		String content = "";
+
+		content += imprimeMeninas(this.raiz);
+		
+		if(content.isEmpty()) {
+			return "Nenhuma cliente foi localizada.";
+		}
+		else {
+			return content;
 		}
 	}
 
-	public void imprimeMeninas(No raiz) {
+	public String imprimeMeninas(No raiz) {
 		if(!eVazia(raiz)) {
-			imprimeMeninas(raiz.getEsq());
 			if(raiz.getConteudo().getSexo() == 'f') {
-				System.out.println(raiz.getConteudo().getNome());
+				return raiz.getConteudo().getNome() + imprimeMeninas(raiz.getEsq()) + imprimeMeninas(raiz.getDir());
+			}else {
+				return imprimeMeninas(raiz.getEsq()) + imprimeMeninas(raiz.getDir());
 			}
-			imprimeMeninas(raiz.getDir());
 		}
-	}
-
-	
-	public double calculaIdadeMedia(No raiz, double media, int cont ) {		
-		media = (media * cont +raiz.getConteudo().getIdade()) / ++cont;
-
-		media = (raiz.getEsq() != null)? calculaIdadeMedia(raiz.getEsq(), media, cont++) : media;
-		media = (raiz.getDir() != null)? calculaIdadeMedia(raiz.getDir(), media, cont++) : media;
-
-		return media;
+		return "";
 	}
 
 	public double calculaIdadeMedia() {
@@ -137,16 +159,16 @@ public class Arvore {
 		return media;
 	}
 
-	public double calculaSaldoMedio(No raiz, double media, int cont ) {		
-		media = (media * cont +raiz.getConteudo().getSaldo()) / ++cont;
+	public double calculaIdadeMedia(No raiz, double media, int cont ) {		
+		media = (media * cont +raiz.getConteudo().getIdade()) / ++cont;
 
-		media = (raiz.getEsq() != null)? calculaSaldoMedio(raiz.getEsq(), media, cont++) : media;
-		media = (raiz.getDir() != null)? calculaSaldoMedio(raiz.getDir(), media, cont++) : media;
+		media = (raiz.getEsq() != null)? calculaIdadeMedia(raiz.getEsq(), media, cont++) : media;
+		media = (raiz.getDir() != null)? calculaIdadeMedia(raiz.getDir(), media, cont++) : media;
 
 		return media;
 	}
-	
-	public double calculaSaldoMedio() {		
+
+	public double calculaSaldoMedio(No raiz) {		
 		double media = raiz.getConteudo().getSaldo();
 		int cont = 1;
 
@@ -156,26 +178,41 @@ public class Arvore {
 		return media;
 	}
 
+	public double calculaSaldoMedio(No raiz, double media, int cont ) {		
+		media = (media * cont +raiz.getConteudo().getSaldo()) / ++cont;
 
-	public void acimaMedia(No raiz, float media) {
-		if(!eVazia(raiz)) {
-			if(raiz.getConteudo().getSaldo() > media) {
-				System.out.println(raiz.getConteudo().getNome());
-			}
-			acimaMedia(raiz.getEsq(), media);
-			acimaMedia(raiz.getDir(), media);
+		media = (raiz.getEsq() != null)? calculaSaldoMedio(raiz.getEsq(), media, cont++) : media;
+		media = (raiz.getDir() != null)? calculaSaldoMedio(raiz.getDir(), media, cont++) : media;
+
+		return media;
+	}
+
+	public String imprimeAcimaMedia() {
+		String content = "";
+
+		content += imprimeAcimaMedia(this.raiz , calculaSaldoMedio(this.raiz));
+		
+		if(content.isEmpty()) {
+			return "Nenhuma cliente foi localizada.";
+		}
+		else {
+			return content;
 		}
 	}
 
-	public void imprime(No raiz) {
+	public String imprimeAcimaMedia(No raiz, double media) {
 		if(!eVazia(raiz)) {
-			imprime(raiz.getEsq());
-			System.out.println(raiz.getConteudo().getNome());
-			imprime(raiz.getDir());
+			if(raiz.getConteudo().getSaldo() > media) {
+				return raiz.getConteudo().getNome() + " " + imprimeAcimaMedia(raiz.getEsq(), media) + imprimeAcimaMedia(raiz.getDir(), media);
+			}else {
+				return imprimeAcimaMedia(raiz.getEsq(), media) + imprimeAcimaMedia(raiz.getDir(), media);
+			}
 		}
+		return "";
 	}
 
 
 }
+
 
 

@@ -1,86 +1,112 @@
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Principal {
+import javax.swing.JOptionPane;
+
+public class principal {
 
 	public static void main(String[] args) {
 		int opcao;
 		Scanner scan = new Scanner(System.in);
-		Arvore arv = new Arvore();
-		Cliente elder = new Cliente("Elder", "164.789.456-78", 10, 'm', 100);
-		Cliente ricardo = new Cliente("Ricardo", "789.789.789-87", 10, 'm', 100);
-		Cliente adriana = new Cliente("Adriana", "456.456.456-98", 20, 'f', 80);
-		Cliente guilherme = new Cliente("Guilherme", "164.789.456-79", 20, 'm', 80);
+		arvore arv = new arvore();
 
-		No novo = new No(elder);
-		No novo1 = new No(ricardo);
-		No novo2 = new No(adriana);
-		No novo3 = new No(guilherme);
+		String uPadrao = "101010";
+		String sPadrao = "adm";
 
-		arv.verificacaoAnteriorInsercao(novo, arv.raiz);
-		arv.verificacaoAnteriorInsercao(novo1, arv.raiz);
-		arv.verificacaoAnteriorInsercao(novo2, arv.raiz);
-		arv.verificacaoAnteriorInsercao(novo3, arv.raiz);
+		String usuario = JOptionPane.showInputDialog("Usuario: ").trim();
+		String senha = JOptionPane.showInputDialog("Senha: ").trim();
 
-		System.out.println("média saldo = " + arv.calculaSaldoMedio());
-		System.out.println("média idade = " + arv.calculaIdadeMedia());
+		if (usuario.equals(uPadrao) && senha.equals(sPadrao)) {
+			do {
 
-		do {
-			System.out.println("=====MENU=====");
-			System.out.println("1 - Cadastrar cliente");
-			System.out.println("2 - Consultar dados de um cliente");
-			System.out.println("3 - Listar clientes do sexo feminino");
-			System.out.println("4 - Media de idade dos clientes");
-			System.out.println("5 - Listar clientes com saldo maior que a media");
-			System.out.println("0 - Sair");
-			opcao = scan.nextInt();
+				opcao = (Integer.parseInt(JOptionPane.showInputDialog("BEM VINDO AO MENU! Pressione::\n" +
+						"1. Cadastrar cliente\n" +
+						"2. Consultar dados de um cliente \n" +
+						"3. Listar clientes do sexo feminino\n" +
+						"4. Media de idade dos clientes\n" +
+						"5. Listar clientes com saldo maior que a media \n" +
+						"0. SAIR")));
 
-			switch (opcao) {
 
-			case 1:
-				System.out.println("Informe o nome do cliente: ");
-				String nome = scan.next();
-				System.out.println("Informe o cpf: ");
-				String cpf = scan.next();
-				System.out.println("Informe a idade: ");
-				int idade = scan.nextInt();
-				System.out.println("Informe o sexo: ");
-				char sexo = scan.next().charAt(0);
-				System.out.println("Informe o saldo: ");
-				float saldo = scan.nextFloat();
-				Cliente novo10 = new Cliente(nome, cpf, idade, sexo, saldo);
-				No novo4 = new No(novo10);
-				arv.verificacaoAnteriorInsercao(novo4, arv.raiz);
-				System.out.println("Cadastro concluido");
-				break;
+				switch (opcao) {
 
-			case 2:
-				System.out.println("Informe o nome do cliente: ");
-				String nomePesq = scan.next();
-				arv.consulta(nomePesq, arv.raiz);
-				break;
+				case 1:
+					String nome = JOptionPane.showInputDialog("Informe o nome do cliente: ").trim();
+					String cpf = JOptionPane.showInputDialog("Informe o cpf: ").trim();
+					int idade = (Integer.parseInt(JOptionPane.showInputDialog("Informe a idade: ")));	
+					char sexo = JOptionPane.showInputDialog("Informe o sexo:").charAt(0);
+					float saldo = (Float.parseFloat(JOptionPane.showInputDialog("Informe o saldo: ")));
 
-			case 3:
-				arv.imprimeMeninas(arv.raiz);
-				break;
+					Cliente novo10 = new Cliente(nome, cpf, idade, sexo, saldo);
+					No novo4 = new No(novo10);
+					arv.verificacaoAnteriorInsercao(novo4, arv.raiz);
+					JOptionPane.showMessageDialog(null, "Cadastro concluido");
+					break;
 
-			case 4:
-				System.out.println("média idade = " + arv.calculaIdadeMedia());
-				break;
+				case 2:				
+					if(arv.eVazia(arv.raiz)) {
+						JOptionPane.showMessageDialog(null, "Ainda não possui cliente cadastrado.");
+					}
+					else {
+						String nomePesq = JOptionPane.showInputDialog("Informe o nome do cliente: ").trim();
+						Cliente c = arv.consulta(nomePesq, arv.raiz);
+						
+						if(c == null) {
+							JOptionPane.showMessageDialog(null, "Cliente não localizado.");
+						}
+						else {
+							JOptionPane.showMessageDialog(null, c.getNome() + " " + c.getIdade() + " " + c.getCPF() + " " + c.getSexo() + " " + c.getSaldo());
+						}
+					}					
+					break;
 
-			case 5:
-				System.out.println("média saldo = " + arv.calculaSaldoMedio());
-				break;
+				case 3:
+					if(arv.eVazia(arv.raiz)) {
+						JOptionPane.showMessageDialog(null, "Ainda não possui cliente cadastrado.");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, arv.imprimeMeninas());
+					}
+					break;
 
-			case 0:
-				System.out.println("FIM");
-				break;
+				case 4:
+					if(arv.eVazia(arv.raiz)) {
+						JOptionPane.showMessageDialog(null, "Ainda não possui cliente cadastrado.");
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "média idade = " + arv.calculaIdadeMedia());
+					}
+					break;
 
-			default:
-				System.out.println("Opcao invalida");
-			}
+				case 5:
+					if(arv.eVazia(arv.raiz)) {
+						JOptionPane.showMessageDialog(null, "Ainda não possui cliente cadastrado.");
+					}
+					else {
+						float saldoM = (float) arv.calculaSaldoMedio(arv.raiz);
+						String content = "Saldo média igual a "+saldoM+"\n";
+						content += arv.imprimeAcimaMedia();
+						
+						JOptionPane.showMessageDialog(null, content);
+					}
+					break;
 
-		} while (opcao != 0);
+				case 0:
+					JOptionPane.showMessageDialog(null, "FIM");
+					break;
+					
+				default:
+					JOptionPane.showMessageDialog(null, "Opcao invalida");
+				}
 
+			} while (opcao != 0);
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Usuario e/ou senha incorretos");
+			System.exit(0);
+
+		}
 	}
 
 }
